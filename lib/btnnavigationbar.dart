@@ -12,40 +12,37 @@ class navbar extends StatefulWidget {
 }
 
 class _navbarState extends State<navbar> {
-
-  int current = 0 ;
-  List screens =[ 
-    Myhome() , Edit() , Account() ,Settings()
-  ];
+  int current = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final List<Widget> screens = [ 
+      Myhome(
+        onImageSelected: (index) {
+          setState(() {
+            current = index; 
+          });
+        },
+      ), 
+      selectedImage != null 
+          ? Edit(image: selectedImage!) 
+          : const Scaffold(body: Center(child: Text('Please select an image first!'))),
+      const Account(), 
+      const Settings(),
+    ];
 
-            appBar: AppBar(
-        backgroundColor: Color.fromRGBO(235, 221, 255, 1),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromRGBO(235, 221, 255, 1),
         elevation: 0.0,
-        title: Text(
+        title: const Text(
           'image processing',
           style: TextStyle(
             color: Color.fromARGB(255, 134, 141, 145),
             fontSize: 20.0,
           ),
         ),
-        // leading: Icon(Icons.location_on,
-        // size: 25.0,
-        // color: Colors.black,
-        // ),
-
-        // actions: [
-
-        // Icon(Icons.search),
-
-        // Icon(Icons.notifications),
-
-        // Icon(Icons.settings)
-        // ],
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Color.fromARGB(255, 134, 141, 145),
           size: 25.0,
         ),
@@ -55,7 +52,7 @@ class _navbarState extends State<navbar> {
         child: ListView(
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Color.fromRGBO(239, 230, 251, 1)),
+              decoration: const BoxDecoration(color: Color.fromRGBO(239, 230, 251, 1)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -63,132 +60,80 @@ class _navbarState extends State<navbar> {
                     radius: 40.0,
                     child: Image.asset('assets/profile.jpg'),
                   ),
-                  SizedBox(
-                    height: 10.0,
-                  ),
-                  Text('Alaa',
-                  style: TextStyle(color: const Color.fromARGB(255, 131, 131, 131)),
+                  const SizedBox(height: 10.0),
+                  const Text('Alaa',
+                    style: TextStyle(color: Color.fromARGB(255, 131, 131, 131)),
                   )
                 ],
-
               ),
-              ),
+            ),
 
-              ListTile(
-                leading: Icon(Icons.home , color: const Color.fromARGB(255, 131, 131, 131) ),
-                title: Text('Home',
-                style: TextStyle(color: const Color.fromARGB(255, 131, 131, 131)  ,fontSize: 16.0),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Myhome()), 
-                    );
-                },
-                ),
+            ListTile(
+              leading: const Icon(Icons.home, color: Color.fromARGB(255, 131, 131, 131)),
+              title: const Text('Home', style: TextStyle(color: Color.fromARGB(255, 131, 131, 131), fontSize: 16.0)),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() { current = 0; });
+              },
+            ),
 
-                ListTile(
-                leading: Icon(Icons.edit, color: const Color.fromARGB(255, 131, 131, 131) ),
-                title: Text('Edit',
-                style: TextStyle(color: const Color.fromARGB(255, 131, 131, 131) ,fontSize: 16.0),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Edit()), 
-                    );
-                },
-                ),
+            ListTile(
+              leading: const Icon(Icons.edit, color: Color.fromARGB(255, 131, 131, 131)),
+              title: const Text('Edit', style: TextStyle(color: Color.fromARGB(255, 131, 131, 131), fontSize: 16.0)),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() { current = 1; });
+              },
+            ),
 
-                ListTile(
-                leading: Icon(Icons.account_circle , color: const Color.fromARGB(255, 131, 131, 131)),
-                title: Text('Account',
-                style: TextStyle(color: const Color.fromARGB(255, 131, 131, 131)  ,fontSize: 16.0),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Account()), 
-                    );
-                },
-                ),
+            ListTile(
+              leading: const Icon(Icons.account_circle, color: Color.fromARGB(255, 131, 131, 131)),
+              title: const Text('Account', style: TextStyle(color: Color.fromARGB(255, 131, 131, 131), fontSize: 16.0)),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() { current = 2; });
+              },
+            ),
 
-                ListTile(
-                leading: Icon(Icons.settings , color: const Color.fromARGB(255, 131, 131, 131)),
-                title: Text('Settings',
-                style: TextStyle(color: const Color.fromARGB(255, 131, 131, 131)  ,fontSize: 16.0),
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Settings()), 
-                    );
-                },
-                ),
+            ListTile(
+              leading: const Icon(Icons.settings, color: Color.fromARGB(255, 131, 131, 131)),
+              title: const Text('Settings', style: TextStyle(color: Color.fromARGB(255, 131, 131, 131), fontSize: 16.0)),
+              onTap: () {
+                Navigator.pop(context);
+                setState(() { current = 3; });
+              },
+            ),
           ],
         ),
       ),
       
       backgroundColor: Colors.grey[100],
+      
       bottomNavigationBar: BottomNavigationBar(
-        items:[
-
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-          ),
-
-          BottomNavigationBarItem(
-          icon: Icon(Icons.edit),
-          label: 'Edit',
-          ),
-
-          BottomNavigationBarItem(
-          icon: Icon(Icons.account_circle),
-          label: 'Account',
-          ),
-
-          BottomNavigationBarItem(
-          icon: Icon(Icons.settings),
-          label: 'Settings',
-          ),
-
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.edit), label: 'Edit'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle), label: 'Account'),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: 'Settings'),
         ],
         backgroundColor: Colors.grey[300],
         elevation: 5.0,
         type: BottomNavigationBarType.fixed,
         selectedFontSize: 15.0,
-        selectedIconTheme: IconThemeData(color: Colors.black , size:20.0),
+        selectedIconTheme: const IconThemeData(color: Colors.black, size: 20.0),
         selectedItemColor: Colors.black,
-        selectedLabelStyle: TextStyle(
-          color: Colors.black,
-          fontSize: 15.0,
-          fontWeight: FontWeight.normal,
-        ),
-
         unselectedFontSize: 15.0,
-        unselectedIconTheme: IconThemeData(color: Colors.grey , size:20.0),
+        unselectedIconTheme: const IconThemeData(color: Colors.grey, size: 20.0),
         unselectedItemColor: Colors.grey,
-        unselectedLabelStyle: TextStyle(
-          color: Colors.grey,
-          fontSize: 15.0,
-          fontWeight: FontWeight.normal,
-        ),
-
-        currentIndex: current ,
+        currentIndex: current,
         onTap: (index) {
           setState(() {
             current = index;
           });
-          
         },
       ),
 
-      body: screens[current],
+      body: screens[current], 
     );
   }
 }
